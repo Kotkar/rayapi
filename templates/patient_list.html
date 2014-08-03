@@ -1,0 +1,36 @@
+<p><h3>Patient List</h3></p>
+{% if items %}
+	<p style="border-bottom:1px solid;">
+		<input style="float:left;" type="checkbox" name="" value="" id='selectall'>Select All</br>
+	</p>
+	<form method="post" action="{% url 'send-mails' %}" name='Email_Posting'>
+		{% if messages %}
+			<p id='err'>
+				{% for message in messages %}
+					{{ message }}
+				{% endfor %}
+			</p>
+		{% endif %}
+		{% csrf_token %}
+		{% for patient in items %}
+			<p>
+				{% for k, v in patient.iteritems %}
+					{% if k == 'id' %}
+						<input class='patients' type="checkbox" name="id" value="{{v}}" style="float:left;">
+					{% else %}
+						| {{k}}: {{v}}
+					{% endif %}
+				{% endfor %}
+			</p>
+		{% endfor %}
+		<p>
+			<p> Enter Your Subject Mr. Doctor : </p>  
+			<input type='text' name="subject" style="width:585px;"/>
+		</p>
+		<p>
+			<p> Enter Your Message Mr. Doctor : </p>  
+			<textarea name="msg" rows="4" cols="80"></textarea>
+		</p>
+		<input type='submit' value="Send An E-Mail" id="sub_patient">
+	</form>
+{% endif %}
